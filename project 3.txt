@@ -1,0 +1,58 @@
+// ISS Location
+async function getISS() {
+  let res = await fetch("http://api.open-notify.org/iss-now.json");
+  let data = await res.json();
+  document.getElementById("iss").innerText =
+    `Lat: ${data.iss_position.latitude}, Lon: ${data.iss_position.longitude}`;
+}
+getISS();
+
+// Space News
+async function getNews() {
+  let res = await fetch("https://api.spaceflightnewsapi.net/v4/articles/");
+  let data = await res.json();
+
+  let list = document.getElementById("news");
+  data.results.slice(0,5).forEach(article => {
+    let li = document.createElement("li");
+    li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
+    list.appendChild(li);
+  });
+}
+getNews();
+
+// Weather API (OpenWeather)
+async function getWeather() {
+  let city = document.getElementById("city").value;
+  let apiKey = "YOUR_API_KEY";
+
+  let res = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+  );
+  let data = await res.json();
+
+  document.getElementById("weather").innerText =
+    `${data.main.temp}°C, ${data.weather[0].description}`;
+}
+
+// Gemini AI
+async function askAI() {
+  let prompt = document.getElementById("prompt").value;
+
+  let res = await fetch(
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_GEMINI_API_KEY",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    }
+  );
+
+  let data = await res.json();
+  document.getElementById("aiResponse").innerText =
+    data.candidates[0].content.parts[0].text;
+}
