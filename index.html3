@@ -1,6 +1,6 @@
 // ISS Location
 async function getISS() {
-  let res = await fetch("http://api.open-notify.org/iss-now.json");
+  let res = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
   let data = await res.json();
   document.getElementById("iss").innerText =
     `Lat: ${data.iss_position.latitude}, Lon: ${data.iss_position.longitude}`;
