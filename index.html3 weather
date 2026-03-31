@@ -21,12 +21,12 @@ async function getNews() {
 }
 getNews();
 
-// Weather API (OpenWeather)
+// Weather API (WeatherApi)
 async function getWeather() {
   let city = document.getElementById("city").value;
   let apiKey = "3318d63e265b4b46895105610262103";
   let res = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${3318d63e265b4b46895105610262103}&units=metric`
   );
   let data = await res.json();
 
@@ -34,24 +34,20 @@ async function getWeather() {
     `${data.main.temp}°C, ${data.weather[0].description}`;
 }
 
-// Gemini AI
-async function askAI() {
-  let prompt = document.getElementById("prompt").value;
-
-  let res = await fetch(
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_GEMINI_API_KEY",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      })
-    }
-  );
-
-  let data = await res.json();
-  document.getElementById("aiResponse").innerText =
-    data.candidates[0].content.parts[0].text;
-}
+curl -H "Authorization: Bearer <2ffa0b45-bd4c-46b1-8936-14ad9b79ed77>" \
+     -H "Content-Type: application/json" \
+     -d '{
+	"stream": true,
+	"model": "DeepSeek-V3.1",
+	"messages": [
+		{
+			"role": "system",
+			"content": "You are a helpful assistant"
+		},
+		{
+			"role": "user",
+			"content": "Hello!"
+		}
+	]
+	}' \
+     -X POST https://api.sambanova.ai/v1/chat/completions
