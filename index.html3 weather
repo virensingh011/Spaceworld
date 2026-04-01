@@ -1,27 +1,3 @@
-// ISS Location
-async function getISS() {
-  let res = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
-  let data = await res.json();
-  document.getElementById("iss").innerText =
-    `Lat: ${data.iss_position.latitude}, Lon: ${data.iss_position.longitude}`;
-}
-getISS();
-
-// Space News
-async function getNews() {
-  let res = await fetch("https://api.spaceflightnewsapi.net/v4/articles/");
-  let data = await res.json();
-
-  let list = document.getElementById("news");
-  data.results.slice(0,5).forEach(article => {
-    let li = document.createElement("li");
-    li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
-    list.appendChild(li);
-  });
-}
-getNews();
-
-// Weather API (WeatherApi)
 <!DOCTYPE html>
 <html lang="en">
 <head>
